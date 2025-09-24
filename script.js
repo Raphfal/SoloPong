@@ -1,7 +1,8 @@
 const canvas = document.getElementById('pong');
 const ctx = canvas.getContext('2d');
-let boutonGauche = document.getElementById('gauche')
-let boutonDroite = document.getElementById('droite')
+let boutonGauche = document.getElementById('gauche');
+let boutonDroite = document.getElementById('droite');
+let score = document.getElementById('score');
 let xBalle;
 let yBalle;
 let xBarre = canvas.width * 0.375;
@@ -13,18 +14,27 @@ let colorPrimary = "black";
 let animationBalle;
 let animationBarre;
 let directionGauche1Droite2;
-let tailleBalle = 10
+let tailleBalle = 10;
+let deplaceDroite = false;
+let deplaceGauche = false;
 
 // Si le resultat du random et 1 la balle sera tiré
 //  vers la gauche dans une direction aléatoire
 //  sinon elle partira a droite
+
+
 function choixDirection() {
     directionGauche1Droite2 = Math.floor(Math.random() * 2) + 1;
     vitesseX = Math.floor(Math.random() * (vitesse - vitesse / 2 + 1) + vitesse);
     directionGauche1Droite2 == 1 ? vitesseX : vitesseX = -vitesseX;
 }
 
+function chrono(){
+    score.getContext = "fjdsqkm";
+}
+
 function lancerJeu() {
+    chrono();
     choixDirection();
     vitesseY = Math.floor(Math.random() * (vitesse - vitesse / 2 + 1) + vitesse);
     // console.log(vitesseX);   
@@ -36,6 +46,7 @@ function lancerJeu() {
     ctx.beginPath();
     xBalle = canvas.width * 0.5;
     yBalle = canvas.height * 0.85;
+    xBarre = canvas.width * 0.375;
     ctx.arc(xBalle, yBalle, 10, 0, 2 * Math.PI);
     ctx.fill();
     ctx.closePath();
@@ -63,20 +74,16 @@ function barre() {
     ctx.beginPath();
     ctx.strokeStyle = colorPrimary;
     ctx.fillStyle = colorPrimary;
+    if(deplaceDroite == true  && (xBarre >= 0)) xBarre = xBarre + vitesse * 1.2;
+    if(deplaceGauche == true ) xBarre = xBarre - vitesse * 1.2;
+    if(xBarre <= 0)
+        xBarre = 0;
+    if(xBarre>=canvas.width - 80) xBarre = canvas.width-80;
     ctx.fillRect(xBarre, yBarre, 80, 10);
     ctx.fill();
     ctx.closePath();
     ctx.stroke();
     ctx.closePath();
-}
-
-function barreGauche() {
-    xBarre = xBarre - vitesse * 1.5;
-}
-
-function barreDroite() {
-    xBarre = xBarre + vitesse * 1.5;
-
 }
 
 function rafraichir() {
@@ -91,18 +98,20 @@ function balleTouche() {
     xBalle + tailleBalle >= canvas.width ? vitesseX = - vitesseX : null;
     yBalle - tailleBalle <= 0 ? vitesseY = - vitesseY : null;
     if (yBalle + tailleBalle >= canvas.height) {
-        gameOver();
+        finPartie();
     }
     if ((yBalle >= yBarre - 10 && yBalle <= yBarre + 10) && (xBalle >= xBarre && xBalle <= xBarre + 80)) {
-        if(xBalle >= (xBarre + 80) / 2){
+
+        if (xBalle <= (xBarre + 80) / 2) {
             vitesseX = -vitesseX;
             vitesseY = -vitesseY;
         }
-        vitesseY = -vitesseY;
+        else {
+            vitesseY = -vitesseY;
+        }
     }
 }
-
-function gameOver() {
+function finPartie() {
     vitesseX = 0;
     vitesseY = 0;
     cancelAnimationFrame(animationBalle);
@@ -110,8 +119,9 @@ function gameOver() {
     ctx.fillStyle = "red";
 }
 
-boutonDroite.addEventListener("click", barreDroite);
-boutonDroite.onmousedown.addEventListener("", barreDroite);
+boutonDroite.addEventListener("mousedown", () =>{deplaceDroite = true});
+boutonDroite.addEventListener("mouseup", () =>{deplaceDroite = false});
 
-boutonGauche.addEventListener("click", barreGauche);
+boutonGauche.addEventListener("mousedown", () =>{deplaceGauche = true});
+boutonGauche.addEventListener("mouseup", () =>{deplaceGauche = false});
 

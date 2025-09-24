@@ -12,12 +12,12 @@ let vitesseX;
 let vitesseY;
 let colorPrimary = "black";
 let animationBalle;
-let animationBarre;
 let directionGauche1Droite2;
 let tailleBalle = 10;
 let deplaceDroite = false;
 let deplaceGauche = false;
-
+let start;
+let estJeuActif = false;
 // Si le resultat du random et 1 la balle sera tiré
 //  vers la gauche dans une direction aléatoire
 //  sinon elle partira a droite
@@ -29,12 +29,16 @@ function choixDirection() {
     directionGauche1Droite2 == 1 ? vitesseX : vitesseX = -vitesseX;
 }
 
-function chrono(){
-    score.getContext = "fjdsqkm";
+function chrono() {
+    if (estJeuActif == true) {
+        temps = Date.now() - start;
+        score.textContent = "scores : " + (Number(temps / 1000).toFixed(1)) + " s";
+    }
 }
 
 function lancerJeu() {
-    chrono();
+    estJeuActif = true;
+    start = Number(Date.now()).toFixed(2);
     choixDirection();
     vitesseY = Math.floor(Math.random() * (vitesse - vitesse / 2 + 1) + vitesse);
     // console.log(vitesseX);   
@@ -74,11 +78,13 @@ function barre() {
     ctx.beginPath();
     ctx.strokeStyle = colorPrimary;
     ctx.fillStyle = colorPrimary;
-    if(deplaceDroite == true  && (xBarre >= 0)) xBarre = xBarre + vitesse * 1.2;
-    if(deplaceGauche == true ) xBarre = xBarre - vitesse * 1.2;
-    if(xBarre <= 0)
-        xBarre = 0;
-    if(xBarre>=canvas.width - 80) xBarre = canvas.width-80;
+    if (estJeuActif) {
+        if (deplaceDroite == true && (xBarre >= 0)) xBarre = xBarre + vitesse * 1.2;
+        if (deplaceGauche == true) xBarre = xBarre - vitesse * 1.2;
+        if (xBarre <= 0)
+            xBarre = 0;
+        if (xBarre >= canvas.width - 80) xBarre = canvas.width - 80;
+    }
     ctx.fillRect(xBarre, yBarre, 80, 10);
     ctx.fill();
     ctx.closePath();
@@ -87,6 +93,7 @@ function barre() {
 }
 
 function rafraichir() {
+    chrono();
     balleTouche();
     balle();
     barre();
@@ -112,6 +119,7 @@ function balleTouche() {
     }
 }
 function finPartie() {
+    estJeuActif = false;
     vitesseX = 0;
     vitesseY = 0;
     cancelAnimationFrame(animationBalle);
@@ -119,9 +127,9 @@ function finPartie() {
     ctx.fillStyle = "red";
 }
 
-boutonDroite.addEventListener("mousedown", () =>{deplaceDroite = true});
-boutonDroite.addEventListener("mouseup", () =>{deplaceDroite = false});
+boutonDroite.addEventListener("mousedown", () => { deplaceDroite = true });
+boutonDroite.addEventListener("mouseup", () => { deplaceDroite = false });
 
-boutonGauche.addEventListener("mousedown", () =>{deplaceGauche = true});
-boutonGauche.addEventListener("mouseup", () =>{deplaceGauche = false});
+boutonGauche.addEventListener("mousedown", () => { deplaceGauche = true });
+boutonGauche.addEventListener("mouseup", () => { deplaceGauche = false });
 

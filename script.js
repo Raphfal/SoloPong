@@ -7,7 +7,7 @@ let xBalle;
 let yBalle;
 let xBarre = canvas.width * 0.375;
 let yBarre = canvas.height * 0.9;
-let vitesse = 3;
+let vitesse = 2;
 let vitesseX;
 let vitesseY;
 let colorPrimary = "black";
@@ -133,3 +133,8 @@ boutonDroite.addEventListener("mouseup", () => { deplaceDroite = false });
 boutonGauche.addEventListener("mousedown", () => { deplaceGauche = true });
 boutonGauche.addEventListener("mouseup", () => { deplaceGauche = false });
 
+boutonDroite.addEventListener("touchstart", () => { deplaceDroite = true });
+boutonDroite.addEventListener("touchend", () => { deplaceDroite = false });
+
+boutonGauche.addEventListener("touchstart", () => { deplaceGauche = true });
+boutonGauche.addEventListener("touchend", () => { deplaceGauche = false });

@@ -133,8 +133,13 @@ boutonDroite.addEventListener("mouseup", () => { deplaceDroite = false });
 boutonGauche.addEventListener("mousedown", () => { deplaceGauche = true });
 boutonGauche.addEventListener("mouseup", () => { deplaceGauche = false });
 
+boutonDroite.addEventListener("mouseleave", () => { deplaceGauche = false });
+boutonGauche.addEventListener("mouseleave", () => { deplaceGauche = false });
+
+
 boutonDroite.addEventListener("touchstart", () => { deplaceDroite = true });
 boutonDroite.addEventListener("touchend", () => { deplaceDroite = false });
 
 boutonGauche.addEventListener("touchstart", () => { deplaceGauche = true });
 boutonGauche.addEventListener("touchend", () => { deplaceGauche = false });
+

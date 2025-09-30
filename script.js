@@ -133,7 +133,7 @@ boutonDroite.addEventListener("mouseup", () => { deplaceDroite = false });
 boutonGauche.addEventListener("mousedown", () => { deplaceGauche = true });
 boutonGauche.addEventListener("mouseup", () => { deplaceGauche = false });
 
-boutonDroite.addEventListener("mouseleave", () => { boutonDroite = false });
+boutonDroite.addEventListener("mouseleave", () => { deplaceDroite = false });
 boutonGauche.addEventListener("mouseleave", () => { deplaceGauche = false });
 
 
